@@ -12,6 +12,9 @@ Se adjunta el flujo de práctica para mayor entendimiento:
 - NodeJS: v14.5.0
 - NPM: 6.14.5
 
+## Video de explicación de la práctica
+[Video](https://drive.google.com/file/d/1kcbDf7FG2DDNgsbg1FRb-nJOgmTFSpq8/view?usp=sharing)
+
 ## Instalación y Ejecución de la aplicación
 
 1. Clonar el repositorio y situarnos en la rama master
