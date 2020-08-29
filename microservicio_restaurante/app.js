@@ -34,88 +34,106 @@ app.use(logError);
 
 const port = process.env.APP_PORT || 3300;
 
-//Metodo: GET, Parametros: codigoPedido*
-app.get("/solicitarPedido", async function(req, res) {
-    console.log("Init /solicitarPedido");
+var pedidos = [];
+
+//Metodo: POST, Parametros: codigoPedido*
+app.post("/recibirPedido", async function(req, res) {
+    console.log("INIT /recibirPedido - Restaurante");
     console.log(req.body);
 
+    let pedido = { codigo: pedidos.length, estado: "En Preparacion" };
+
+    pedidos.push(pedido);
+
+    console.log("Pedido Registrado exitosamente - Restaurante");
+
+    res.json({ codigo: pedido.codigo });
+});
+
+//Metodo: GET, Parametros: codigoPedido*
+app.get("/estadoPedido", async function(req, res) {
+    console.log("INIT /estadoPedido - Restaurante");
+    console.log(req.body);
+
+    //se obtiene el valor codigo del query url
+    let codigoPedido = req.query.codigo;
+
+    if (!codigoPedido) {
+        res.json({
+            mensaje: "Error, es necesario el codigo del pedido",
+        });
+
+        return;
+    }
+
+    if (parseInt(codigoPedido) >= pedidos.length) {
+        res.json({
+            mensaje: "Error, codigo del pedido inválido",
+        });
+
+        return;
+    }
+
+    res.json({
+        mensaje: pedidos[codigoPedido].estado,
+    });
+});
+
+app.get("/entregarPedido", async function(req, res) {
+    console.log("INIT /entregarPedido - Restaurante");
+    console.log(req.body);
+
+    //se obtiene el valor codigo del query url
+    let codigoPedido = req.query.codigo;
+
+    if (!codigoPedido) {
+        res.json({
+            mensaje: "Error, es necesario el codigo del pedido",
+        });
+
+        return;
+    }
+
+    if (parseInt(codigoPedido) >= pedidos.length) {
+        res.json({
+            mensaje: "Error, codigo del pedido inválido",
+        });
+
+        return;
+    }
+
+    if (pedidos[codigoPedido].estado == "Enviado") {
+        res.json({
+            mensaje: "Error, este pedido ya fue entregado al repartidor.",
+        });
+
+        return;
+    }
+
+    pedidos[codigoPedido].estado = "Enviado";
+
+    let data = { codigo: codigoPedido };
+
     axios
-        .post("http://localhost:3300/recibirPedido")
+        .post("http://localhost:3302/recibirPedido", data)
         .then((response) => {
+            console.log(response);
             console.log(
-                "Orden realizada exitosamente, el codigo de su orden es: " +
-                response.codigo
+                "Orden " +
+                response.data.codigo +
+                " entregada al repartidor exitosamente"
             );
 
             res.json({
-                type: "success",
-                mensaje: "Orden realizada exitosamente.",
+                mensaje: "Orden " +
+                    response.data.codigo +
+                    " entregada al repartidor exitosamente",
             });
 
             return;
         })
         .catch((error) => {
-            console.log("Error al realizar la orden");
-            console.log(error);
-        });
-});
-
-//Metodo: GET, Parametros: codigoPedido*
-app.get("/verificarPedidoRestaurante", async function(req, res) {
-    //se obtiene el valor codigo del query url
-    let codigoPedido = req.query.codigo;
-
-    if (!codigoPedido) {
-        res.json({
-            mensaje: "Error, es necesario el codigo del pedido",
-        });
-        return;
-    }
-
-    axios
-        .get("http://localhost:3300/estadoPedido?code=" + codigoPedido)
-        .then((response) => {
-            console.log("Pedido consultado exitosamente");
-
-            res.json({
-                type: "success",
-                data: response.message,
-            });
-
-            return;
-        })
-        .catch((error) => {
-            console.log("Error al verificar el pedido");
-            console.log(error);
-        });
-});
-
-//Metodo: GET, Parametros: codigoPedido*
-app.get("/verificarPedidoRepartidor", async function(req, res) {
-    //se obtiene el valor codigo del query url
-    let codigoPedido = req.query.codigo;
-
-    if (!codigoPedido) {
-        res.json({
-            mensaje: "Error, es necesario el codigo del pedido",
-        });
-        return;
-    }
-
-    axios
-        .get("http://localhost:3302/estadoPedido?code=" + codigoPedido)
-        .then((response) => {
-            console.log("Pedido consultado exitosamente");
-
-            res.json({
-                type: "success",
-                data: response.message,
-            });
-
-            return;
-        })
-        .catch((error) => {
-            console.log("Error al verificar el pedido");
+            console.log("Error al realizar la entrega");
             console.log(error);
         });
 });

@@ -36,20 +36,21 @@ const port = process.env.APP_PORT || 3301;
 
 //Metodo: GET, Parametros: codigoPedido*
 app.get("/solicitarPedido", async function(req, res) {
-    console.log("Init /solicitarPedido");
+    console.log("INIT /solicitarPedido - Cliente");
     console.log(req.body);
 
     axios
         .post("http://localhost:3300/recibirPedido")
         .then((response) => {
+            console.log(response);
             console.log(
                 "Orden realizada exitosamente, el codigo de su orden es: " +
-                response.codigo
+                response.data.codigo
             );
 
             res.json({
-                type: "success",
-                mensaje: "Orden realizada exitosamente.",
+                mensaje: "Orden realizada exitosamente, el codigo de su orden es: " +
+                    response.data.codigo,
             });
 
             return;
@@ -62,6 +63,9 @@ app.get("/solicitarPedido", async function(req, res) {
 
 //Metodo: GET, Parametros: codigoPedido*
 app.get("/verificarPedidoRestaurante", async function(req, res) {
+    console.log("INIT /verificarPedidoRestaurante  - Cliente");
+    console.log(req.body);
+
     //se obtiene el valor codigo del query url
     let codigoPedido = req.query.codigo;
 
@@ -73,13 +77,12 @@ app.get("/verificarPedidoRestaurante", async function(req, res) {
     }
 
     axios
-        .get("http://localhost:3300/estadoPedido?code=" + codigoPedido)
+        .get("http://localhost:3300/estadoPedido?codigo=" + codigoPedido)
         .then((response) => {
             console.log("Pedido consultado exitosamente");
 
             res.json({
-                type: "success",
-                data: response.message,
+                mensaje: response.data.mensaje,
             });
 
             return;
@@ -92,6 +95,9 @@ app.get("/verificarPedidoRestaurante", async function(req, res) {
 
 //Metodo: GET, Parametros: codigoPedido*
 app.get("/verificarPedidoRepartidor", async function(req, res) {
+    console.log("INIT /verificarPedidoRepartidor  - Cliente");
+    console.log(req.body);
+
     //se obtiene el valor codigo del query url
     let codigoPedido = req.query.codigo;
 
@@ -103,13 +109,12 @@ app.get("/verificarPedidoRepartidor", async function(req, res) {
     }
 
     axios
-        .get("http://localhost:3302/estadoPedido?code=" + codigoPedido)
+        .get("http://localhost:3302/estadoPedido?codigo=" + codigoPedido)
         .then((response) => {
             console.log("Pedido consultado exitosamente");
 
             res.json({
-                type: "success",
-                data: response.message,
+                mensaje: response.data.mensaje,
             });
 
             return;
