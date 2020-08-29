@@ -34,4 +34,8 @@ npm install
 node app.js
 ```
 
+## Video de la explicación de la práctica
+
+[video](https://drive.google.com/file/d/1dYpWccmjN4fLKLgYmLWPkBgjr4tdCYLj/view?usp=sharing)
+
 Si en ninguno de los pasos anteriores ocurrió un error, los 3 microservicios deben de estar corriendo en los puertos 3300, 3001, 3002 para cliente, restaurante y repartidor correspondientemente.
