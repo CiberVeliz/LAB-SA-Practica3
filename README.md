@@ -5,7 +5,7 @@
 Esta rama contiene la todo el contenido de la práctica 3, la cual se divide en 3 microservicios.
 
 Se adjunta el flujo de práctica para mayor entendimiento:
-![Flujo](https://drive.google.com/file/d/1KU4cHYpQCDbE8aF_r1kRBDZ1LSt4Mp08/view?usp=sharing)
+![Flujo](https://drive.google.com/file/d/1KU4cHYpQCDbE8aF_r1kRBDZ1LSt4Mp08)
 
 ## Versiones de herramientas utilizadas:
 
