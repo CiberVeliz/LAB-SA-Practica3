@@ -18,8 +18,8 @@ Se adjunta el flujo de práctica para mayor entendimiento:
 
 ```
 git clone https://github.com/CiberVeliz/LAB-SA-Practica3
-git checkout practica4
 cd LAB-SA-Practica3
+git checkout practica4
 ```
 
 2. Instalar los paquetes utilizados en la aplicación:
