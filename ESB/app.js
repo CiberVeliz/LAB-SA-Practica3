@@ -49,8 +49,7 @@ app.get("/realizarPedido", async function(req, res) {
             );
 
             res.json({
-                mensaje: "Orden realizada exitosamente, el codigo de su orden es: " +
-                    response.data.codigo,
+                codigo: response.data.codigo,
             });
 
             return;
@@ -65,8 +64,8 @@ app.get("/realizarPedido", async function(req, res) {
 });
 
 //Metodo: GET, Parametros: codigoPedido*
-app.get("/verificarPedidoRestaurante", async function(req, res) {
-    console.log("INIT /verificarPedidoRestaurante  - ESB");
+app.get("/estadoPedidoRestaurante", async function(req, res) {
+    console.log("INIT /estadoPedidoRestaurante  - ESB");
     console.log(req.body);
 
     //se obtiene el valor codigo del query url
@@ -97,8 +96,8 @@ app.get("/verificarPedidoRestaurante", async function(req, res) {
 });
 
 //Metodo: GET, Parametros: codigoPedido*
-app.get("/verificarPedidoRepartidor", async function(req, res) {
-    console.log("INIT /verificarPedidoRepartidor  - ESB");
+app.get("/estadoPedidoRepartidor", async function(req, res) {
+    console.log("INIT /estadoPedidoRepartidor  - ESB");
     console.log(req.body);
 
     //se obtiene el valor codigo del query url
@@ -151,9 +150,7 @@ app.get("/entregarPedidoRepartidor", async function(req, res) {
             );
 
             res.json({
-                mensaje: "Orden " +
-                    response.data.codigo +
-                    " entregada al repartidor exitosamente",
+                codigo: response.data.codigo
             });
 
             return;
