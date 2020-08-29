@@ -32,15 +32,15 @@ app.use(logError);
 
 // ---------------------------------------------------------------------------------------------------------
 
-const port = process.env.APP_PORT || 3301;
+const port = process.env.APP_PORT || 5000;
 
 //Metodo: GET, Parametros: codigoPedido*
-app.get("/solicitarPedido", async function(req, res) {
-    console.log("INIT /solicitarPedido - Cliente");
+app.get("/realizarPedido", async function(req, res) {
+    console.log("INIT /realizarPedido - ESB");
     console.log(req.body);
 
     axios
-        .get("http://localhost:5000/realizarPedido") //comunicación al ESB
+        .post("http://localhost:3300/recibirPedido") //comunicación con el restaurante
         .then((response) => {
             console.log(response);
             console.log(
@@ -56,6 +56,9 @@ app.get("/solicitarPedido", async function(req, res) {
             return;
         })
         .catch((error) => {
+            res.json({
+                mensaje: error
+            });
             console.log("Error al realizar la orden");
             console.log(error);
         });
@@ -63,7 +66,7 @@ app.get("/solicitarPedido", async function(req, res) {
 
 //Metodo: GET, Parametros: codigoPedido*
 app.get("/verificarPedidoRestaurante", async function(req, res) {
-    console.log("INIT /verificarPedidoRestaurante  - Cliente");
+    console.log("INIT /verificarPedidoRestaurante  - ESB");
     console.log(req.body);
 
     //se obtiene el valor codigo del query url
@@ -77,7 +80,7 @@ app.get("/verificarPedidoRestaurante", async function(req, res) {
     }
 
     axios
-        .get("http://localhost:5000/estadoPedidoRestaurante?codigo=" + codigoPedido) //comunicacion con el ESB
+        .get("http://localhost:3300/estadoPedido?codigo=" + codigoPedido)
         .then((response) => {
             console.log("Pedido consultado exitosamente");
 
@@ -95,7 +98,7 @@ app.get("/verificarPedidoRestaurante", async function(req, res) {
 
 //Metodo: GET, Parametros: codigoPedido*
 app.get("/verificarPedidoRepartidor", async function(req, res) {
-    console.log("INIT /verificarPedidoRepartidor  - Cliente");
+    console.log("INIT /verificarPedidoRepartidor  - ESB");
     console.log(req.body);
 
     //se obtiene el valor codigo del query url
@@ -109,7 +112,7 @@ app.get("/verificarPedidoRepartidor", async function(req, res) {
     }
 
     axios
-        .get("http://localhost:5000/estadoPedidoRepartidor?codigo=" + codigoPedido)
+        .get("http://localhost:3302/estadoPedido?codigo=" + codigoPedido)
         .then((response) => {
             console.log("Pedido consultado exitosamente");
 
@@ -121,6 +124,42 @@ app.get("/verificarPedidoRepartidor", async function(req, res) {
         })
         .catch((error) => {
             console.log("Error al verificar el pedido");
+            console.log(error);
+        });
+});
+
+
+app.get("/entregarPedidoRepartidor", async function(req, res) {
+    console.log("INIT /entregarPedidoRepartidor - ESB");
+    console.log(req.body);
+
+    //se obtiene el valor codigo del query url
+    let codigoPedido = req.query.codigo;
+
+    let data = {
+        codigo: codigoPedido
+    };
+
+    axios
+        .post("http://localhost:3302/recibirPedido", data)
+        .then((response) => {
+            console.log(response);
+            console.log(
+                "Orden " +
+                response.data.codigo +
+                " entregada al repartidor exitosamente"
+            );
+
+            res.json({
+                mensaje: "Orden " +
+                    response.data.codigo +
+                    " entregada al repartidor exitosamente",
+            });
+
+            return;
+        })
+        .catch((error) => {
+            console.log("Error al realizar la entrega");
             console.log(error);
         });
 });

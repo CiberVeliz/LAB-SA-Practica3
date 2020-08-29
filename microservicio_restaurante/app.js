@@ -41,13 +41,18 @@ app.post("/recibirPedido", async function(req, res) {
     console.log("INIT /recibirPedido - Restaurante");
     console.log(req.body);
 
-    let pedido = { codigo: pedidos.length, estado: "En Preparacion" };
+    let pedido = {
+        codigo: pedidos.length,
+        estado: "En Preparacion"
+    };
 
     pedidos.push(pedido);
 
     console.log("Pedido Registrado exitosamente - Restaurante");
 
-    res.json({ codigo: pedido.codigo });
+    res.json({
+        codigo: pedido.codigo
+    });
 });
 
 //Metodo: GET, Parametros: codigoPedido*
@@ -112,10 +117,8 @@ app.get("/entregarPedido", async function(req, res) {
 
     pedidos[codigoPedido].estado = "Enviado";
 
-    let data = { codigo: codigoPedido };
-
     axios
-        .post("http://localhost:3302/recibirPedido", data)
+        .get("http://localhost:5000/entregarPedidoRepartidor?codigo=" + codigoPedido)
         .then((response) => {
             console.log(response);
             console.log(
