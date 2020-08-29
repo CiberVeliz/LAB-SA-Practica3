@@ -35,7 +35,7 @@ app.use(logError);
 const port = process.env.APP_PORT || 3301;
 
 //Metodo: GET, Parametros: codigoPedido*
-app.get("/solicitarPedido", async function(req, res) {
+app.get("/cliente/solicitarPedido", async function(req, res) {
     console.log("INIT /solicitarPedido - Cliente");
     console.log(req.body);
 
@@ -62,7 +62,7 @@ app.get("/solicitarPedido", async function(req, res) {
 });
 
 //Metodo: GET, Parametros: codigoPedido*
-app.get("/verificarPedidoRestaurante", async function(req, res) {
+app.get("/cliente/verificarPedidoRestaurante", async function(req, res) {
     console.log("INIT /verificarPedidoRestaurante  - Cliente");
     console.log(req.body);
 
@@ -94,7 +94,7 @@ app.get("/verificarPedidoRestaurante", async function(req, res) {
 });
 
 //Metodo: GET, Parametros: codigoPedido*
-app.get("/verificarPedidoRepartidor", async function(req, res) {
+app.get("/cliente/verificarPedidoRepartidor", async function(req, res) {
     console.log("INIT /verificarPedidoRepartidor  - Cliente");
     console.log(req.body);
 

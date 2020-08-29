@@ -40,7 +40,7 @@ app.get("/realizarPedido", async function(req, res) {
     console.log(req.body);
 
     axios
-        .post("http://localhost:3300/recibirPedido") //comunicación con el restaurante
+        .post("http://localhost:3300/restaurante/recibirPedido") //comunicación con el restaurante
         .then((response) => {
             console.log(response);
             console.log(
@@ -79,7 +79,7 @@ app.get("/estadoPedidoRestaurante", async function(req, res) {
     }
 
     axios
-        .get("http://localhost:3300/estadoPedido?codigo=" + codigoPedido)
+        .get("http://localhost:3300/restaurante/estadoPedido?codigo=" + codigoPedido)
         .then((response) => {
             console.log("Pedido consultado exitosamente");
 
@@ -111,7 +111,7 @@ app.get("/estadoPedidoRepartidor", async function(req, res) {
     }
 
     axios
-        .get("http://localhost:3302/estadoPedido?codigo=" + codigoPedido)
+        .get("http://localhost:3302/repartidor/estadoPedido?codigo=" + codigoPedido)
         .then((response) => {
             console.log("Pedido consultado exitosamente");
 
@@ -140,7 +140,7 @@ app.get("/entregarPedidoRepartidor", async function(req, res) {
     };
 
     axios
-        .post("http://localhost:3302/recibirPedido", data)
+        .post("http://localhost:3302/repartidor/recibirPedido", data)
         .then((response) => {
             console.log(response);
             console.log(

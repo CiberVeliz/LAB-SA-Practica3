@@ -37,7 +37,7 @@ const port = process.env.APP_PORT || 3300;
 var pedidos = [];
 
 //Metodo: POST, Parametros: codigoPedido*
-app.post("/recibirPedido", async function(req, res) {
+app.post("/restaurante/recibirPedido", async function(req, res) {
     console.log("INIT /recibirPedido - Restaurante");
     console.log(req.body);
 
@@ -56,7 +56,7 @@ app.post("/recibirPedido", async function(req, res) {
 });
 
 //Metodo: GET, Parametros: codigoPedido*
-app.get("/estadoPedido", async function(req, res) {
+app.get("/restaurante/estadoPedido", async function(req, res) {
     console.log("INIT /estadoPedido - Restaurante");
     console.log(req.body);
 
@@ -84,7 +84,7 @@ app.get("/estadoPedido", async function(req, res) {
     });
 });
 
-app.get("/entregarPedido", async function(req, res) {
+app.get("/restaurante/entregarPedido", async function(req, res) {
     console.log("INIT /entregarPedido - Restaurante");
     console.log(req.body);
 

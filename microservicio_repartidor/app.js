@@ -39,23 +39,28 @@ const port = process.env.APP_PORT || 3302;
 var pedidos = [];
 
 //Metodo: POST, Parametros: codigoPedido*
-app.post("/recibirPedido", async function(req, res) {
+app.post("/repartidor/recibirPedido", async function(req, res) {
     console.log("INIT /recibirPedido - Repartidor");
     console.log(req.body);
 
     let codigoPedido = req.body.codigo;
 
-    let pedido = { codigo: codigoPedido, estado: "En Camino" };
+    let pedido = {
+        codigo: codigoPedido,
+        estado: "En Camino"
+    };
 
     pedidos.push(pedido);
 
     console.log("Pedido Registrado exitosamente - Restaurante");
 
-    res.json({ codigo: pedido.codigo });
+    res.json({
+        codigo: pedido.codigo
+    });
 });
 
 //Metodo: GET, Parametros: codigoPedido*
-app.get("/estadoPedido", async function(req, res) {
+app.get("/repartidor/estadoPedido", async function(req, res) {
     console.log("INIT /estadoPedido - Repartidor");
     console.log(req.body);
 
@@ -85,7 +90,7 @@ app.get("/estadoPedido", async function(req, res) {
     });
 });
 
-app.get("/entregarPedido", async function(req, res) {
+app.get("/repartidor/entregarPedido", async function(req, res) {
     console.log("INIT /entregarPedido - Repartidor");
     console.log(req.body);
 
